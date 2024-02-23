@@ -1,4 +1,5 @@
 use super::*;
+use egui::ecolor::Color32;
 
 /// This trait must be implemented by the `ValueType` generic parameter of the
 /// [`Graph`]. The trait allows drawing custom inline widgets for the different
@@ -54,7 +55,7 @@ pub trait WidgetValueTrait: Default {
 /// to the user.
 pub trait DataTypeTrait<UserState>: PartialEq + Eq {
     /// The associated port color of this datatype
-    fn data_type_color(&self, user_state: &mut UserState) -> egui::Color32;
+    fn data_type_color(&self, user_state: &mut UserState) -> Color32;
 
     /// The name of this datatype. Return type is specified as Cow<str> because
     /// some implementations will need to allocate a new string to provide an
