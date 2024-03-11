@@ -87,5 +87,6 @@ pub struct Graph<NodeData, DataType, ValueType> {
     pub outputs: SlotMap<OutputId, OutputParam<DataType>>,
     // Connects the input of a node, to the output of its predecessor that
     // produces it
-    pub connections: SecondaryMap<InputId, OutputId>,
+    pub connections: SecondaryMap<OutputId, InputId>,
+    // pub connections: SecondaryMap<InputId, OutputId>,
 }
