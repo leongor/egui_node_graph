@@ -134,7 +134,7 @@ where
         let mut delayed_responses: Vec<NodeResponse<UserResponse, NodeData>> = prepend_responses;
 
         // Used to detect when the background was clicked
-        let mut click_on_background = false;
+        // let mut click_on_background = false;
 
         // Used to detect drag events in the background
         let mut drag_started_on_background = false;
@@ -151,7 +151,7 @@ where
         // with the nodes.
         let r = ui.allocate_rect(ui.min_rect(), Sense::click().union(Sense::drag()));
         if r.clicked() {
-            click_on_background = true;
+            // click_on_background = true;
         } else if r.drag_started() {
             drag_started_on_background = true;
         } else if r.drag_released() {
@@ -410,7 +410,8 @@ where
             self.connection_in_progress = None;
         }
 
-        if mouse.secondary_released() && cursor_in_editor && !cursor_in_finder {
+        // if mouse.secondary_released() && cursor_in_editor && !cursor_in_finder {
+        if mouse.secondary_released() && !cursor_in_finder {
             self.node_finder = Some(NodeFinder::new_at(cursor_pos));
         }
         if ui.ctx().input(|i| i.key_pressed(Key::Escape)) {
@@ -423,7 +424,8 @@ where
 
         // Deselect and deactivate finder if the editor backround is clicked,
         // *or* if the the mouse clicks off the ui
-        if click_on_background || (mouse.any_click() && !cursor_in_editor) {
+        // if click_on_background || (mouse.any_click() && !cursor_in_editor) {
+        if mouse.any_pressed() && !cursor_in_finder {
             self.selected_nodes = Vec::new();
             self.node_finder = None;
         }
