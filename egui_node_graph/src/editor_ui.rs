@@ -154,7 +154,7 @@ where
             // click_on_background = true;
         } else if r.drag_started() {
             drag_started_on_background = true;
-        } else if r.drag_released() {
+        } else if r.drag_stopped() {
             drag_released_on_background = true;
         }
 
@@ -182,7 +182,7 @@ where
         /* Draw the node finder, if open */
         let mut should_close_node_finder = false;
         if let Some(ref mut node_finder) = self.node_finder {
-            let mut node_finder_area = Area::new("node_finder").order(Order::Foreground);
+            let mut node_finder_area = Area::new(Id::new("node_finder")).order(Order::Foreground);
             if let Some(pos) = node_finder.position {
                 node_finder_area = node_finder_area.current_pos(pos);
             }
@@ -490,6 +490,7 @@ where
             Rect::from_min_size(*self.position + self.pan, Self::MAX_NODE_SIZE.into()),
             Layout::default(),
             self.node_id,
+            None,
         );
 
         Self::show_graph_node(self, &mut child_ui, user_state)
@@ -529,7 +530,7 @@ where
         inner_rect.max.x = inner_rect.max.x.max(inner_rect.min.x);
         inner_rect.max.y = inner_rect.max.y.max(inner_rect.min.y);
 
-        let mut child_ui = ui.child_ui(inner_rect, *ui.layout());
+        let mut child_ui = ui.child_ui(inner_rect, *ui.layout(), None);
 
         // Get interaction rect from memory, it may expand after the window response on resize.
         let interaction_rect = ui
@@ -814,6 +815,7 @@ where
                     .titlebar_color(ui, self.node_id, self.graph, user_state)
                     .unwrap_or_else(|| background_color.lighten(0.8)),
                 stroke: Stroke::NONE,
+                blur_width: 0.0,
                 fill_texture_id: Default::default(),
                 uv: Rect::ZERO,
             });
@@ -827,6 +829,7 @@ where
                 rounding: Rounding::ZERO,
                 fill: background_color,
                 stroke: Stroke::NONE,
+                blur_width: 0.0,
                 fill_texture_id: Default::default(),
                 uv: Rect::ZERO,
             });
@@ -840,6 +843,7 @@ where
                 rounding,
                 fill: background_color,
                 stroke: Stroke::NONE,
+                blur_width: 0.0,
                 fill_texture_id: Default::default(),
                 uv: Rect::ZERO,
             });
@@ -851,6 +855,7 @@ where
                     rounding,
                     fill: Color32::WHITE.lighten(0.8),
                     stroke: Stroke::NONE,
+                    blur_width: 0.0,
                     fill_texture_id: Default::default(),
                     uv: Rect::ZERO,
                 })
